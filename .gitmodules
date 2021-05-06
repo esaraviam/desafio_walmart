@@ -4,3 +4,6 @@
 [submodule "server"]
 	path = server
 	url = https://github.com/esaraviam/server
+[submodule "mongo_seed"]
+	path = mongo_seed
+	url = https://github.com/esaraviam/mongo_seed
