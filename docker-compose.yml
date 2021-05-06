@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  api-client:
+    image: client-app
+    build: ./client/
+    stdin_open: true
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
+    volumes:
+      - ./client/:/usr/src/app
+      - /usr/src/app/œnode_modules
+
+  api-server:
+    image: api-server
+    build: ./server/
+    ports:
+      - '5000:5000'
+    networks:
+      - app-network
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:4.4-bionic
+    container_name: mongodb-local
+    ports:
+      - '27017:27017'
+    networks:
+      - app-network
+    volumes:
+      - mongo-data:/data/db
+  mongo_seed:
+    build: ./mongo_seed
+    links:
+      - mongodb
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
